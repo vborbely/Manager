@@ -1,12 +1,13 @@
-import React from 'react';
-import { Text, View, Modal } from 'react-native';
+import React, { Component } from 'react';
+import {  View,  Text,  Modal } from 'react-native';
 import { CardSection } from './CardSection';
-import { Button } from './Button';
+import {Button} from './Button';
 
 const Confirm = ({ children, visible, onAccept, onDecline }) => {
-  const { containerStyle, textStyle, cardSectionStyle } = styles;
+  const { containerStyle, textStyle, cardSectionStyle}  = styles;
 
   return (
+    //a wrapper for the Modal
     <Modal
       visible={visible}
       transparent
@@ -21,6 +22,7 @@ const Confirm = ({ children, visible, onAccept, onDecline }) => {
         </CardSection>
 
         <CardSection>
+          //it is only a reference to the function, not called immediately
           <Button onPress={onAccept}>Yes</Button>
           <Button onPress={onDecline}>No</Button>
         </CardSection>
@@ -30,17 +32,18 @@ const Confirm = ({ children, visible, onAccept, onDecline }) => {
 };
 
 const styles = {
-  cardSectionStyle: {
+  cardSectionStyle : {
     justifyContent: 'center'
   },
   textStyle: {
     flex: 1,
     fontSize: 18,
     textAlign: 'center',
-    lineHeight: 40
+    lineHeight: 40,
+    height: 150
   },
   containerStyle: {
-    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    backgroundColor: 'rgba(0,0,0,0.75)',
     position: 'relative',
     flex: 1,
     justifyContent: 'center'

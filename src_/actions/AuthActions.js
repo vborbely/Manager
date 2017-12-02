@@ -8,12 +8,13 @@ import {
   LOGIN_USER
 } from './types';
 
+
 export const emailChanged = (text) => {
   return {
     type: EMAIL_CHANGED,
     payload: text
-  };
-};
+  }
+}
 
 export const passwordChanged = (text) => {
   return {
@@ -22,14 +23,14 @@ export const passwordChanged = (text) => {
   };
 };
 
-export const loginUser = ({ email, password }) => {
+export const loginUser = ( {email, password} ) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_USER });
 
-    firebase.auth().signInWithEmailAndPassword(email, password)
+    firebase.auth().signInWithEmailAndPassword(email,password)
       .then(user => loginUserSuccess(dispatch, user))
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        //console.log(error);
 
         firebase.auth().createUserWithEmailAndPassword(email, password)
           .then(user => loginUserSuccess(dispatch, user))
@@ -40,7 +41,7 @@ export const loginUser = ({ email, password }) => {
 
 const loginUserFail = (dispatch) => {
   dispatch({ type: LOGIN_USER_FAIL });
-};
+}
 
 const loginUserSuccess = (dispatch, user) => {
   dispatch({
@@ -49,4 +50,4 @@ const loginUserSuccess = (dispatch, user) => {
   });
 
   Actions.main();
-};
+}

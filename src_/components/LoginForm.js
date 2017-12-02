@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text
+} from 'react-native';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged, loginUser } from '../actions';
-import { Card, CardSection, Input, Button, Spinner } from './common';
+import { Card, CardSection, Button, Input, Spinner } from './common';
+import { emailChanged, passwordChanged, loginUser }  from '../actions';
 
 class LoginForm extends Component {
+
+// event handlers
   onEmailChange(text) {
     this.props.emailChanged(text);
   }
@@ -16,11 +22,24 @@ class LoginForm extends Component {
   onButtonPress() {
     const { email, password } = this.props;
 
-    this.props.loginUser({ email, password });
+    this.props.loginUser({email, password});
+  }
+
+  renderError() {
+    if(this.props.error) {
+      return (
+        <View style={{ backgroundColor: 'white' }}>
+          <Text style={styles.errorTextStyle} >
+            {this.props.error}
+          </Text>
+        </View>
+      );
+    }
   }
 
   renderButton() {
-    if (this.props.loading) {
+
+    if(this.props.loading) {
       return <Spinner size="large" />;
     }
 
@@ -53,9 +72,7 @@ class LoginForm extends Component {
           />
         </CardSection>
 
-        <Text style={styles.errorTextStyle}>
-          {this.props.error}
-        </Text>
+        {this.renderError()}
 
         <CardSection>
           {this.renderButton()}
@@ -65,20 +82,24 @@ class LoginForm extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    email: state.auth.email,
+    password: state.auth.password,
+    error: state.auth.error,
+    loading: state.auth.loading
+  };
+};
+
+
 const styles = {
   errorTextStyle: {
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
   }
-};
+}
 
-const mapStateToProps = ({ auth }) => {
-  const { email, password, error, loading } = auth;
-
-  return { email, password, error, loading };
-};
 
 export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, loginUser
-})(LoginForm);
+  emailChanged, passwordChanged, loginUser })(LoginForm);

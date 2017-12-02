@@ -5,22 +5,26 @@ import { ListView } from 'react-native';
 import { employeesFetch } from '../actions';
 import ListItem from './ListItem';
 
+
 class EmployeeList extends Component {
   componentWillMount() {
+    // async call
     this.props.employeesFetch();
 
     this.createDataSource(this.props);
   }
 
+  // lifecycle method
   componentWillReceiveProps(nextProps) {
-    // nextProps are the next set of props that this component
-    // will be rendered with
+    //nextProps are the next set of props that this component
+    // will be rendered closenWithRows
     // this.props is still the old set of props
 
     this.createDataSource(nextProps);
   }
 
   createDataSource({ employees }) {
+    // datasource
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
@@ -32,14 +36,15 @@ class EmployeeList extends Component {
     return <ListItem employee={employee} />;
   }
 
-  render() {
+  render () {
+    console.log(this.props);
     return (
       <ListView
         enableEmptySections
         dataSource={this.dataSource}
         renderRow={this.renderRow}
       />
-    );
+    )
   }
 }
 
@@ -51,4 +56,4 @@ const mapStateToProps = state => {
   return { employees };
 };
 
-export default connect(mapStateToProps, { employeesFetch })(EmployeeList);
+export default connect(mapStateToProps, {employeesFetch})(EmployeeList);
